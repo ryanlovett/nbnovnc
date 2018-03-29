@@ -1,0 +1,7 @@
+novnc
+websockify
+x11vnc
+xfonts-base
+xvfb
+xterm
+fluxbox

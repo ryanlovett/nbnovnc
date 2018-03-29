@@ -2,6 +2,8 @@
 
 **nbnovnc** provides Jupyter server and notebook extensions to proxy a notebook-side VNC session using noVNC, enabling users to run non-web applications within their Jupyter notebook server. This is mostly useful for hosted Jupyter environments such as JupyterHub or Binder.
 
+[![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/ryanlovett/nbnovnc/master)
+
 Requires [nbserverproxy](https://github.com/jupyterhub/nbserverproxy).
 
 ## Installation
@@ -33,5 +35,3 @@ jupyter serverextension enable  --py --sys-prefix nbnovnc
 jupyter nbextension     install --py --sys-prefix nbnovnc
 jupyter nbextension     enable  --py --sys-prefix nbnovnc
 ```
-
-This repository contains the requisite materials to run an example instance on Binder.

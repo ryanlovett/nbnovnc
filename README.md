@@ -4,12 +4,10 @@
 
 [![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/ryanlovett/nbnovnc/master)
 
-Requires [nbserverproxy](https://github.com/jupyterhub/nbserverproxy).
-
 ## Installation
 
 ### Install Dependencies
-The extension currently uses an opinionated VNC environment comprised of Xvfb, x11vnc, noVNC, and websockify.
+The extension requires [nbserverproxy](https://github.com/jupyterhub/nbserverproxy) and currently uses an opinionated VNC environment comprised of Xvfb, x11vnc, noVNC, and websockify.
 
 On Debian/Ubuntu:
 ```

@@ -29,7 +29,7 @@ numprocesses = 1
 priority = 2
 
 [watcher:windowmanager]
-cmd = openbox-session
+cmd = openbox --startup ~/.config/openbox/autostart
 numprocesses = 1
 priority = 1
 
@@ -50,10 +50,6 @@ DISPLAY = :0
 
     def get_cmd(self):
         filename = self.write_conf(self.port)
-        self.log.info("nvnovnc: circusd ini file: {}".format(filename))
-        self.log.info("nvnovnc:\n--\n{}".format(open(filename).read()))
-
-        # shiny command.
         return [ 'circusd', filename ]
 
 def setup_handlers(web_app):

@@ -24,14 +24,12 @@ priority = 3
 hooks.after_start = nbnovnc.circus.sleep
 
 [watcher:websockify]
-#cmd = websockify --web /usr/share/novnc/ $(circus.sockets.novnc) localhost:5900
-#use_sockets = True
 cmd = websockify --web /usr/share/novnc/ {port} localhost:5900
 numprocesses = 1
 priority = 2
 
 [watcher:windowmanager]
-cmd = fluxbox -display :0
+cmd = x-window-manager
 numprocesses = 1
 priority = 1
 """

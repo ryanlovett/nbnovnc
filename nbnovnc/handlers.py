@@ -4,7 +4,6 @@ from notebook.utils import url_path_join as ujoin
 
 from nbserverproxy.handlers import AddSlashHandler, SuperviseAndProxyHandler
 
-
 class NoVNCHandler(SuperviseAndProxyHandler):
     '''Manage a novnc instance along with websockify, x11vnc, and Xvfb.'''
 
@@ -22,6 +21,7 @@ priority = 4
 cmd = x11vnc -loop
 numprocesses = 1
 priority = 3
+hooks.after_start = nbnovnc.circus.sleep
 
 [watcher:websockify]
 #cmd = websockify --web /usr/share/novnc/ $(circus.sockets.novnc) localhost:5900

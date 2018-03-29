@@ -29,9 +29,10 @@ numprocesses = 1
 priority = 2
 
 [watcher:windowmanager]
-cmd = openbox --startup ~/.config/openbox/autostart
+cmd = openbox --startup .config/openbox/autostart
 numprocesses = 1
 priority = 1
+copy_env = True
 
 [env:windowmanager]
 DISPLAY = :0

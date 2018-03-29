@@ -44,6 +44,9 @@ priority = 1
         f.close()
         return f.name
 
+    def get_env(self):
+        return { 'DISPLAY': ':0' }
+
     def get_cmd(self):
         filename = self.write_conf(self.port)
         self.log.info("nvnovnc: circusd ini file: {}".format(filename))

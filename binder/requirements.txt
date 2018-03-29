@@ -1,2 +1,2 @@
-git+https://github.com/ryanlovett/nbserverproxy.git@d0d4f93
-git+https://github.com/ryanlovett/novnc.git
+git+git://github.com/ryanlovett/nbserverproxy.git@d0d4f93
+git+git://github.com/ryanlovett/novnc.git

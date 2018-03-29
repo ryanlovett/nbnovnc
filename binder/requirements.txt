@@ -1,2 +1,6 @@
 git+git://github.com/ryanlovett/nbserverproxy.git@d0d4f93
 git+git://github.com/ryanlovett/nbnovnc.git
+tornado==4.5.3
+psutil==5.4.3
+iowait==0.2
+circus==0.14.0

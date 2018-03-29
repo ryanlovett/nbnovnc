@@ -4,4 +4,4 @@ x11vnc
 xfonts-base
 xvfb
 xterm
-fluxbox
+openbox

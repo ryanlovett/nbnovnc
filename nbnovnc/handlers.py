@@ -29,9 +29,12 @@ numprocesses = 1
 priority = 2
 
 [watcher:windowmanager]
-cmd = x-window-manager
+cmd = openbox-session
 numprocesses = 1
 priority = 1
+
+[env:windowmanager]
+DISPLAY = :0
 """
 
     def write_conf(self, port):

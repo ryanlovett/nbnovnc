@@ -1,3 +1,0 @@
-#!/bin/bash
-xterm &
-exec fluxbox -display :0

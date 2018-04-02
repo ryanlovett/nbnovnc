@@ -1,4 +1,4 @@
-git+git://github.com/ryanlovett/nbserverproxy.git@d0d4f93
+git+git://github.com/ryanlovett/nbserverproxy.git@v0.7.0
 git+git://github.com/ryanlovett/nbnovnc.git
 tornado==4.5.3
 psutil==5.4.3

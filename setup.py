@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name="nbnovnc",
-    version='0.0.1',
+    version='0.0.2',
     url="https://github.com/ryanlovett/nbnovnc",
     author="Ryan Lovett",
     description="Jupyter extension to proxy a VNC session via noVNC",
@@ -11,7 +11,7 @@ setuptools.setup(
 	classifiers=['Framework :: Jupyter'],
     install_requires=[
         'notebook',
-        'nbserverproxy >= 0.5.1'
+        'nbserverproxy >= 0.7'
     ],
     package_data={'nbnovnc': ['static/*']},
 )

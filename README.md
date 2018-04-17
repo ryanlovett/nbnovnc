@@ -35,3 +35,14 @@ jupyter serverextension enable  --py --sys-prefix nbnovnc
 jupyter nbextension     install --py --sys-prefix nbnovnc
 jupyter nbextension     enable  --py --sys-prefix nbnovnc
 ```
+
+### Configuration
+
+The following traitlets are available:
+
+- NBNoVNC.desktop_session: The command used to start a desktop session. The default is `openbox --startup .config/openbox/autostart` because it is easy to prepare on binder.
+- NBNoVNC.geometry: The desktop geometry, e.g. 1024x768.
+- NBNoVNC.depth: The color depth, e.g. 24.
+
+For example:
+jupyter notebook --NBNoVNC.desktop_session /path/to/an/xinitrc

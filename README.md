@@ -9,11 +9,11 @@
 ## Installation
 
 ### Install Dependencies
-The extension requires [nbserverproxy](https://github.com/jupyterhub/nbserverproxy) and currently uses an opinionated VNC environment comprised of Xvfb, x11vnc, noVNC, and websockify.
+The extension requires [nbserverproxy](https://github.com/jupyterhub/nbserverproxy) and currently uses an opinionated VNC environment comprised of TightVNC server, noVNC, websockify, and supervisord.
 
 On Debian/Ubuntu:
 ```
-apt install xvfb x11vnc novnc websockify
+apt install tightvncserver novnc websockify supervisor
 ```
 
 ### Install nbnovnc 

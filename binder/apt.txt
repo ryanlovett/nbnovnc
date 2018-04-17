@@ -1,7 +1,7 @@
 novnc
 websockify
-x11vnc
+tightvncserver
 xfonts-base
-xvfb
 xterm
 openbox
+supervisor

@@ -1,61 +1,78 @@
+import configparser
+import socket
 import tempfile
 
 from notebook.utils import url_path_join as ujoin
 
+from traitlets import Unicode, Integer
+from traitlets.config.configurable import Configurable
+
 from nbserverproxy.handlers import AddSlashHandler, SuperviseAndProxyHandler
 
-class NoVNCHandler(SuperviseAndProxyHandler):
-    '''Manage a novnc instance along with websockify, x11vnc, and Xvfb.'''
+class NBNoVNC(Configurable):
+    desktop_session = Unicode(u"openbox --startup .config/openbox/autostart",
+        help="Command to start desktop session.", config=True)
+    websocket_wait = Integer(3,
+        help="Wait in seconds before connecting to websocket.", config=True)
+    geometry = Unicode(u"1024x768", help="Desktop geometry.", config=True)
+    depth = Integer(24, help="Desktop display depth.", config=True)
 
-    name = 'circusd'
+class SupervisorHandler(SuperviseAndProxyHandler):
+    '''Manage a novnc instance along with websockify and a VNC server.'''
 
-    conf_tmpl = """
-[circus]
+    name = 'supervisord'
+    
+    def initialize(self, state):
+        super().initialize(state)
+        self.c = NBNoVNC(config=self.config)
+        # This is racy because we don't immediately start the VNC server.
+        self.vnc_port = self.random_empty_port()
 
-[watcher:Xvfb]
-cmd = Xvfb :0 -screen 0 1024x768x24
-numprocesses = 1
-priority = 4
+    def random_empty_port(self):
+        '''Allocate a random empty port for use by the VNC server.'''
+        sock = socket.socket()
+        sock.bind(('', 0))
+        port = sock.getsockname()[1]
+        sock.close()
+        return port
 
-[watcher:x11vnc]
-cmd = x11vnc -loop
-numprocesses = 1
-priority = 3
-hooks.after_start = nbnovnc.circus.sleep
+    @property
+    def display(self):
+        return self.vnc_port-5900
 
-[watcher:websockify]
-cmd = websockify --web /usr/share/novnc/ {port} localhost:5900
-numprocesses = 1
-priority = 2
-
-[watcher:windowmanager]
-cmd = openbox --startup .config/openbox/autostart
-numprocesses = 1
-priority = 1
-copy_env = True
-
-[env:windowmanager]
-DISPLAY = :0
-"""
-
-    def write_conf(self, port):
-        '''Create a configuration file and return its name.'''
-        conf = self.conf_tmpl.format(port=port)
+    def write_conf(self):
+        config = configparser.ConfigParser()
+        config['supervisord'] = {}
+        config['program:xtightvnc'] = {
+            'command': "Xtightvnc :{} -geometry {} -depth {}".format(
+                self.display, self.c.geometry, self.c.depth
+            ),
+            'priority': 10,
+        }
+        config['program:websockify'] = {
+            'command': "websockify --web /usr/share/novnc/ {port} localhost:{vnc_port}".format(port=self.port, vnc_port=self.vnc_port),
+            'priority': 20,
+        }
+        config['program:desktop'] = {
+            'command': self.c.desktop_session,
+            'priority': 30,
+            'environment': 'DISPLAY=":{}"'.format(self.display)
+        }
         f = tempfile.NamedTemporaryFile(mode='w', delete=False)
-        f.write(conf)
+        config.write(f)
         f.close()
         return f.name
 
     def get_env(self):
-        return { 'DISPLAY': ':0' }
+        return { 'DISPLAY': ':' + str(self.display) }
 
     def get_cmd(self):
-        filename = self.write_conf(self.port)
-        return [ 'circusd', filename ]
+        filename = self.write_conf()
+        return [ "supervisord", "-c", filename, "--nodaemon" ]
 
 def setup_handlers(web_app):
     web_app.add_handlers('.*', [
-        (ujoin(web_app.settings['base_url'], 'novnc/(.*)'), NoVNCHandler, dict(state={})),
+        (ujoin(web_app.settings['base_url'], 'novnc/(.*)'), SupervisorHandler, dict(state={})),
         (ujoin(web_app.settings['base_url'], 'novnc'), AddSlashHandler)
     ])
 

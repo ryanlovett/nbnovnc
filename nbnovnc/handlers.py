@@ -12,8 +12,6 @@ from nbserverproxy.handlers import AddSlashHandler, SuperviseAndProxyHandler
 class NBNoVNC(Configurable):
     desktop_session = Unicode(u"openbox --startup .config/openbox/autostart",
         help="Command to start desktop session.", config=True)
-    websocket_wait = Integer(3,
-        help="Wait in seconds before connecting to websocket.", config=True)
     geometry = Unicode(u"1024x768", help="Desktop geometry.", config=True)
     depth = Integer(24, help="Desktop display depth.", config=True)
 

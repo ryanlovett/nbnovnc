@@ -19,7 +19,7 @@ apt install tightvncserver novnc websockify supervisor
 ### Install nbnovnc 
 Install the library:
 ```
-pip install git+https://github.com/ryanlovett/nbnovnc
+pip install nbnovnc
 ```
 
 Either install the extensions for the user:

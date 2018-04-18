@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name="nbnovnc",
-    version='0.0.3',
+    version='0.0.4',
     url="https://github.com/ryanlovett/nbnovnc",
     author="Ryan Lovett",
     author_email="rylo@berkeley.edu",

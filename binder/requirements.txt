@@ -1,3 +1,2 @@
-git+git://github.com/jupyterhub/nbserverproxy.git@482b560
-git+git://github.com/ryanlovett/nbnovnc.git
-tornado
+nbserverproxy==0.7.1
+nbnovnc

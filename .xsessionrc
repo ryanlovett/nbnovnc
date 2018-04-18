@@ -1,7 +1,0 @@
-#!/bin/sh
-
-# This script is only meant to be sourced when nbnovnc is run on binder
-# since it takes the place of ~/.xsessionrc there.
-
-xsetroot -solid gray30
-xterm &

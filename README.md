@@ -13,7 +13,7 @@ The extension requires [nbserverproxy](https://github.com/jupyterhub/nbserverpro
 
 On Debian/Ubuntu:
 ```
-apt install tightvncserver novnc websockify supervisor
+apt install tightvncserver novnc websockify supervisor xinit
 ```
 
 ### Install nbnovnc 
@@ -40,10 +40,8 @@ jupyter nbextension     enable  --py --sys-prefix nbnovnc
 
 The following traitlets are available:
 
-- NBNoVNC.desktop_session: The command used to start a desktop session. The default is `openbox --startup /etc/X11/xinit/xinitrc` because it is easy to prepare on binder.
 - NBNoVNC.geometry: The desktop geometry, e.g. 1024x768.
 - NBNoVNC.depth: The color depth, e.g. 24.
 - NBNoVNC.novnc_directory: The path to noVNC's web assets.
 
-For example:
-jupyter notebook --NBNoVNC.desktop_session /path/to/an/xinitrc
+You may configure the desktop environment by altering ~/.xinitrc.

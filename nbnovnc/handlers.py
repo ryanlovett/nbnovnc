@@ -32,7 +32,7 @@ class SupervisorHandler(SuperviseAndProxyHandler):
         return [ "supervisord", "-c", filename, "--nodaemon" ]
 
 class NBNoVNC(Configurable):
-    desktop_session = Unicode(u"openbox --startup .config/openbox/autostart",
+    desktop_session = Unicode(u"openbox --startup /etc/X11/xinit/xinitrc",
         help="Command to start desktop session.", config=True)
     geometry = Unicode(u"1024x768", help="Desktop geometry.", config=True)
     depth = Integer(24, help="Desktop display depth.", config=True)

@@ -1,4 +1,5 @@
 import configparser
+import os
 import socket
 import tempfile
 
@@ -9,17 +10,37 @@ from traitlets.config.configurable import Configurable
 
 from nbserverproxy.handlers import AddSlashHandler, SuperviseAndProxyHandler
 
+class SupervisorHandler(SuperviseAndProxyHandler):
+    '''Supervise supervisord.'''
+
+    name = 'supervisord'
+
+    def supervisor_config(self):
+        config = configparser.ConfigParser()
+        config['supervisord'] = {}
+        return config
+
+    def write_conf(self):
+        config = self.supervisor_config()
+        f = tempfile.NamedTemporaryFile(mode='w', delete=False)
+        config.write(f)
+        f.close()
+        return f.name
+
+    def get_cmd(self):
+        filename = self.write_conf()
+        return [ "supervisord", "-c", filename, "--nodaemon" ]
+
 class NBNoVNC(Configurable):
     desktop_session = Unicode(u"openbox --startup .config/openbox/autostart",
         help="Command to start desktop session.", config=True)
     geometry = Unicode(u"1024x768", help="Desktop geometry.", config=True)
     depth = Integer(24, help="Desktop display depth.", config=True)
+    novnc_directory = Unicode(u"/usr/share/novnc",
+        help="Path to noVNC web assets.", config=True)
 
-class SupervisorHandler(SuperviseAndProxyHandler):
-    '''Manage a novnc instance along with websockify and a VNC server.'''
-
-    name = 'supervisord'
-    
+class NoVNCHandler(SupervisorHandler):
+    '''Supervise novnc, websockify, and a VNC server.'''
     def initialize(self, state):
         super().initialize(state)
         self.c = NBNoVNC(config=self.config)
@@ -38,9 +59,11 @@ class SupervisorHandler(SuperviseAndProxyHandler):
     def display(self):
         return self.vnc_port-5900
 
-    def write_conf(self):
-        config = configparser.ConfigParser()
-        config['supervisord'] = {}
+    def get_env(self):
+        return { 'DISPLAY': ':' + str(self.display) }
+
+    def supervisor_config(self):
+        config = super().supervisor_config()
         config['program:xtightvnc'] = {
             'command': "Xtightvnc :{} -geometry {} -depth {}".format(
                 self.display, self.c.geometry, self.c.depth
@@ -48,7 +71,11 @@ class SupervisorHandler(SuperviseAndProxyHandler):
             'priority': 10,
         }
         config['program:websockify'] = {
-            'command': "websockify --web /usr/share/novnc/ {port} localhost:{vnc_port}".format(port=self.port, vnc_port=self.vnc_port),
+            'command': "websockify --web {} {} localhost:{}".format(
+                self.c.novnc_directory,
+                self.port,
+                self.vnc_port
+            ),
             'priority': 20,
         }
         config['program:desktop'] = {
@@ -56,21 +83,24 @@ class SupervisorHandler(SuperviseAndProxyHandler):
             'priority': 30,
             'environment': 'DISPLAY=":{}"'.format(self.display)
         }
-        f = tempfile.NamedTemporaryFile(mode='w', delete=False)
-        config.write(f)
-        f.close()
-        return f.name
+        return config
 
-    def get_env(self):
-        return { 'DISPLAY': ':' + str(self.display) }
-
-    def get_cmd(self):
-        filename = self.write_conf()
-        return [ "supervisord", "-c", filename, "--nodaemon" ]
+    async def get(self, path):
+        '''
+        When clients visit novnc/, actually get novnc/vnc_auto.html
+        or novnc/vnc_lite.html from our proxied service instead.
+        '''
+        if len(path) == 0:
+            for f in ['vnc_auto.html', 'vnc_lite.html']:
+                if os.path.exists(os.path.join(self.c.novnc_directory, f)):
+                    path = f
+                    break
+        return await super().get(path)
 
 def setup_handlers(web_app):
     web_app.add_handlers('.*', [
-        (ujoin(web_app.settings['base_url'], 'novnc/(.*)'), SupervisorHandler, dict(state={})),
+        (ujoin(web_app.settings['base_url'], 'novnc/(.*)'), NoVNCHandler,
+            dict(state={})),
         (ujoin(web_app.settings['base_url'], 'novnc'), AddSlashHandler)
     ])
 

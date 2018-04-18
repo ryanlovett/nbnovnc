@@ -12,14 +12,6 @@ define(function(require) {
         /* locate the right-side dropdown menu of apps and notebooks */
         var menu = $('.tree-buttons').find('.dropdown-menu');
 
-        /* create a divider */
-        // var divider = $('<li>')
-        //     .attr('role', 'presentation')
-        //     .addClass('divider');
-
-        /* add the divider */
-        // menu.append(divider);
-
         /* create our list item */
         var vnc_item = $('<li>')
             .attr('role', 'presentation')
@@ -29,7 +21,7 @@ define(function(require) {
         var vnc_link = $('<a>')
             .attr('role', 'menuitem')
             .attr('tabindex', '-1')
-            .attr('href', base_url + 'novnc/vnc_auto.html?noVNC_path=' + base_url.slice(1,) + 'novnc/websockify')
+            .attr('href', base_url + 'novnc/?path=' + base_url.slice(1,) + 'novnc/websockify')
             .attr('target', '_blank')
             .text('noVNC Desktop');
 

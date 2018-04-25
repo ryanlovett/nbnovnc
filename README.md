@@ -43,5 +43,6 @@ The following traitlets are available:
 - NBNoVNC.geometry: The desktop geometry, e.g. 1024x768.
 - NBNoVNC.depth: The color depth, e.g. 24.
 - NBNoVNC.novnc_directory: The path to noVNC's web assets.
+- NBNoVNC.vnc_command: The command to launch the VNC server. Contains replacement fields for display, depth, and geometry, e.g. `xinit -- /usr/bin/Xtightvnc :{display} -geometry {geometry} -depth {depth}`
 
 You may configure the desktop environment by altering ~/.xinitrc.

@@ -36,6 +36,7 @@ class NBNoVNC(Configurable):
     depth = Integer(24, help="Desktop display depth.", config=True)
     novnc_directory = Unicode(u"/usr/share/novnc",
         help="Path to noVNC web assets.", config=True)
+    vnc_command = Unicode(u"xinit -- /usr/bin/Xtightvnc :{display} -geometry {geometry} -depth {depth}", config=True, help="Command to start VNC server. Contains string replacement fields.")
 
 class NoVNCHandler(SupervisorHandler):
     '''Supervise novnc, websockify, and a VNC server.'''
@@ -62,9 +63,11 @@ class NoVNCHandler(SupervisorHandler):
 
     def supervisor_config(self):
         config = super().supervisor_config()
-        config['program:xtightvnc'] = {
-            'command': "xinit -- /usr/bin/Xtightvnc :{} -geometry {} -depth {}".format(
-                self.display, self.c.geometry, self.c.depth
+        config['program:vnc'] = {
+            'command': self.c.vnc_command.format(
+                display=self.display,
+                geometry=self.c.geometry,
+                depth=self.c.depth
             ),
             'priority': 10,
         }

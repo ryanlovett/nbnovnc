@@ -1,2 +1,2 @@
-nbserverproxy==0.7.1
-nbnovnc
+git+https://github.com/ryanlovett/nbserverproxy@pingable
+git+https://github.com/ryanlovett/nbnovnc@pingable

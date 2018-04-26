@@ -72,7 +72,7 @@ class NoVNCHandler(SupervisorHandler):
             'priority': 10,
         }
         config['program:websockify'] = {
-            'command': "websockify --web {} {} localhost:{}".format(
+            'command': "websockify --web {} --heartbeat 30 {} localhost:{}".format(
                 self.c.novnc_directory,
                 self.port,
                 self.vnc_port

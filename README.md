@@ -2,19 +2,20 @@
 
 **nbnovnc** provides Jupyter server and notebook extensions to proxy a notebook-side VNC session using noVNC, enabling users to run non-web applications within their Jupyter notebook server. This is mostly useful for hosted Jupyter environments such as JupyterHub or Binder.
 
-[![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/ryanlovett/nbnovnc/master)
+[![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/ryanlovett/nbnovnc/5a64d9e)
 
 ![Screenshot](screenshot.png)
 
 ## Installation
 
 ### Install Dependencies
-The extension requires [nbserverproxy](https://github.com/jupyterhub/nbserverproxy) and currently uses an opinionated VNC environment comprised of TightVNC server, noVNC, websockify, and supervisord.
+The extension requires [nbserverproxy](https://github.com/jupyterhub/nbserverproxy) and currently uses an opinionated VNC environment comprised of TightVNC server, noVNC, supervisord, and websockify 0.8.0 for python2.
 
 On Debian/Ubuntu:
 ```
 apt install tightvncserver novnc websockify supervisor xinit
 ```
+
 
 ### Install nbnovnc 
 Install the library:

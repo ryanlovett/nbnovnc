@@ -1,2 +1,2 @@
-nbserverproxy
+nbserverproxy==0.8.0
 nbnovnc

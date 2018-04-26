@@ -9,12 +9,15 @@
 ## Installation
 
 ### Install Dependencies
-The extension requires [nbserverproxy](https://github.com/jupyterhub/nbserverproxy) and currently uses an opinionated VNC environment comprised of TightVNC server, noVNC, supervisord, and websockify 0.8.0 for python2.
+The extension requires [nbserverproxy](https://github.com/jupyterhub/nbserverproxy) and currently uses an opinionated VNC environment comprised of TightVNC server, noVNC, supervisord, and websockify.
 
 On Debian/Ubuntu:
 ```
 apt install tightvncserver novnc websockify supervisor xinit
 ```
+
+#### websockify compatibility
+nbnovnc requires websockify version 0.8.0 for python2. There is a bug in websockify 0.8.0 under python3 which has since been addressed in websockify master. However, nbnovnc is not yet compatible with websockify master.
 
 
 ### Install nbnovnc 
@@ -45,5 +48,6 @@ The following traitlets are available:
 - NBNoVNC.depth: The color depth, e.g. 24.
 - NBNoVNC.novnc_directory: The path to noVNC's web assets.
 - NBNoVNC.vnc_command: The command to launch the VNC server. Contains replacement fields for display, depth, and geometry, e.g. `xinit -- /usr/bin/Xtightvnc :{display} -geometry {geometry} -depth {depth}`
+- NBNoVNC.websockify_command = The websockify command. Contains replacement fields. e.g. `websockify --web {novnc_directory} --heartbeat {heartbeat} {port} localhost:{vnc_port}`
 
 You may configure the desktop environment by altering ~/.xinitrc.

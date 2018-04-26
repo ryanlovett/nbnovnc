@@ -34,9 +34,12 @@ class SupervisorHandler(SuperviseAndProxyHandler):
 class NBNoVNC(Configurable):
     geometry = Unicode(u"1024x768", help="Desktop geometry.", config=True)
     depth = Integer(24, help="Desktop display depth.", config=True)
-    novnc_directory = Unicode(u"/usr/share/novnc",
-        help="Path to noVNC web assets.", config=True)
-    vnc_command = Unicode(u"xinit -- /usr/bin/Xtightvnc :{display} -geometry {geometry} -depth {depth}", config=True, help="Command to start VNC server. Contains string replacement fields.")
+    novnc_directory = Unicode(u"/usr/share/novnc", config=True,
+        help="Path to noVNC web assets.")
+    vnc_command = Unicode(u"xinit -- /usr/bin/Xtightvnc :{display} -geometry {geometry} -depth {depth}", config=True,
+        help="Command to start VNC server. Contains string replacement fields.")
+    websockify_command = Unicode(u"websockify --web {novnc_directory} --heartbeat {heartbeat} {port} localhost:{vnc_port}", config=True,
+        help="websockify command. Contains string replacement fields.")
 
 class NoVNCHandler(SupervisorHandler):
     '''Supervise novnc, websockify, and a VNC server.'''
@@ -72,10 +75,11 @@ class NoVNCHandler(SupervisorHandler):
             'priority': 10,
         }
         config['program:websockify'] = {
-            'command': "websockify --web {} --heartbeat 30 {} localhost:{}".format(
-                self.c.novnc_directory,
-                self.port,
-                self.vnc_port
+            'command': self.c.websockify_command.format(
+                novnc_directory=self.c.novnc_directory,
+                heartbeat=30,
+                port=self.port,
+                vnc_port=self.vnc_port
             ),
             'priority': 20,
         }

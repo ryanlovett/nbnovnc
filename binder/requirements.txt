@@ -1,2 +1,2 @@
-git+https://github.com/ryanlovett/nbserverproxy@6026e8e
-git+https://github.com/ryanlovett/nbnovnc@5d19809
+nbserverproxy==0.8.1
+git+https://github.com/ryanlovett/nbnovnc@3b67a7b

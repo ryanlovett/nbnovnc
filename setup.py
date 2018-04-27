@@ -12,7 +12,7 @@ setuptools.setup(
 	classifiers=['Framework :: Jupyter'],
     install_requires=[
         'notebook',
-        'nbserverproxy >= 0.8.0'
+        'nbserverproxy >= 0.8.1'
     ],
     package_data={'nbnovnc': ['static/*']},
 )

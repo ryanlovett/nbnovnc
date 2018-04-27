@@ -11,6 +11,8 @@ setuptools.setup(
 	keywords=['Jupyter'],
 	classifiers=['Framework :: Jupyter'],
     install_requires=[
+        'pyzmq >= 17',
+        'tornado >= 5',
         'notebook',
         'nbserverproxy >= 0.8.1'
     ],

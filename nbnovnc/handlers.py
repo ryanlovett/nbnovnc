@@ -87,14 +87,16 @@ class NoVNCHandler(SupervisorHandler):
 
     async def get(self, path):
         '''
-        When clients visit novnc/, actually get novnc/vnc_auto.html
-        or novnc/vnc_lite.html from our proxied service instead.
+        When clients visit novnc/, actually get novnc/vnc.html.
+
+        vnc_lite.html (fomerly vnc_auto.html) was described as an example of
+        how to use novnc, rather than a supported frontend, so we do not use
+        it.
         '''
         if len(path) == 0:
-            for f in ['vnc_auto.html', 'vnc_lite.html']:
-                if os.path.exists(os.path.join(self.c.novnc_directory, f)):
-                    path = f
-                    break
+            filename = 'vnc.html'
+            if os.path.exists(os.path.join(self.c.novnc_directory, filename)):
+                path = filename
         return await super().get(path)
 
 def setup_handlers(web_app):

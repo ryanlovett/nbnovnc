@@ -8,7 +8,7 @@ from notebook.utils import url_path_join as ujoin
 from traitlets import Unicode, Integer
 from traitlets.config.configurable import Configurable
 
-from nbserverproxy.handlers import AddSlashHandler, SuperviseAndProxyHandler
+from jupyter_server_proxy.handlers import AddSlashHandler, SuperviseAndProxyHandler
 
 class SupervisorHandler(SuperviseAndProxyHandler):
     '''Supervise supervisord.'''
@@ -34,11 +34,11 @@ class SupervisorHandler(SuperviseAndProxyHandler):
 class NBNoVNC(Configurable):
     geometry = Unicode(u"1024x768", help="Desktop geometry.", config=True)
     depth = Integer(24, help="Desktop display depth.", config=True)
-    novnc_directory = Unicode(u"/usr/share/novnc", config=True,
+    novnc_directory = Unicode(u"/usr/share/novnc/", config=True,
         help="Path to noVNC web assets.")
-    vnc_command = Unicode(u"xinit -- /usr/bin/Xtightvnc :{display} -geometry {geometry} -depth {depth}", config=True,
+    vnc_command = Unicode(u"xinit -- /usr/bin/Xtigervnc :99 -geometry {geometry} -depth {depth}  -SecurityTypes None", config=True,
         help="Command to start VNC server. Contains string replacement fields.")
-    websockify_command = Unicode(u"websockify --web {novnc_directory} --heartbeat {heartbeat} {port} localhost:{vnc_port}", config=True,
+    websockify_command = Unicode(u"websockify --web {novnc_directory} --heartbeat {heartbeat} {port} localhost:5999", config=True,
         help="websockify command. Contains string replacement fields.")
 
 class NoVNCHandler(SupervisorHandler):
@@ -97,6 +97,7 @@ class NoVNCHandler(SupervisorHandler):
             filename = 'vnc.html'
             if os.path.exists(os.path.join(self.c.novnc_directory, filename)):
                 path = filename
+            path = path + '?path=novnc/websockify&autoconnect=1&resize=remote'
         return await super().get(path)
 
 def setup_handlers(web_app):

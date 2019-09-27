@@ -1,0 +1,50 @@
+{
+  "name": "jupyterlab-novnc",
+  "version": "0.1.0",
+  "description": "A JupyterLab extension for noVNC",
+  "keywords": [
+    "jupyter",
+    "jupyterlab",
+    "jupyterlab-extension"
+  ],
+  "homepage": "https://github.com/my_name/myextension",
+  "bugs": {
+    "url": "https://github.com/my_name/myextension/issues"
+  },
+  "license": "BSD-3-Clause",
+  "author": "Logilab",
+  "files": [
+    "lib/**/*.{d.ts,eot,gif,html,jpg,js,js.map,json,png,svg,woff2,ttf}",
+    "style/**/*.{css,eot,gif,html,jpg,json,png,svg,woff2,ttf}"
+  ],
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/my_name/myextension.git"
+  },
+  "scripts": {
+    "build": "tsc",
+    "clean": "rimraf lib",
+    "lint": "npm run tslint",
+    "tslint": "tslint -- src/*.ts",
+    "watch": "tsc -w",
+    "prepare": "npm run clean && npm run build"
+  },
+  "dependencies": {
+    "@jupyterlab/application": "^1.0.0",
+    "@jupyterlab/apputils": "^1.0.0",
+    "@jupyterlab/launcher": "^1.0.0",
+    "@jupyterlab/mainmenu": "^1.0.0",
+    "@phosphor/widgets": "^1.1.2",
+    "tslint-eslint-rules": "^5.4.0"
+  },
+  "devDependencies": {
+    "rimraf": "^2.6.3",
+    "typescript": "~3.3.3",
+    "tslint": "^5.12.1"
+  },
+  "jupyterlab": {
+    "extension": true
+  }
+}

@@ -21,7 +21,7 @@ define(function(require) {
         var vnc_link = $('<a>')
             .attr('role', 'menuitem')
             .attr('tabindex', '-1')
-            .attr('href', base_url + 'novnc/?path=' + base_url.slice(1,) + 'novnc/websockify')
+            .attr('href', base_url + 'novnc/?host=' + window.location.host + base_url + 'novnc/&resize=remote&autoconnect=1')
             .attr('target', '_blank')
             .text('noVNC Desktop');
 

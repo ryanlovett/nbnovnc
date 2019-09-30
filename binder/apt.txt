@@ -1,9 +1,9 @@
 novnc
 websockify
-tightvncserver
+tigervnc-standalone-server
 xfonts-base
 xterm
-openbox
+xfce4
 supervisor
 x11-xserver-utils
 xinit

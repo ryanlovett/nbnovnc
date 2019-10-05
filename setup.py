@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name="nbnovnc",
-    version='0.1.1',
+    version='0.1.2',
     url="https://github.com/ryanlovett/nbnovnc",
     author="Ryan Lovett",
     author_email="rylo@berkeley.edu",
@@ -11,10 +11,10 @@ setuptools.setup(
 	keywords=['Jupyter'],
 	classifiers=['Framework :: Jupyter'],
     install_requires=[
-        'pyzmq >= 17',
-        'tornado >= 5',
+        'pyzmq',
+        'tornado',
         'notebook',
-        'nbserverproxy >= 0.8.1'
+        'jupyter_server_proxy'
     ],
     package_data={'nbnovnc': ['static/*']},
 )

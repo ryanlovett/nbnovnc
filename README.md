@@ -1,5 +1,9 @@
 # nbnovnc
 
+This project is **deprecated**. Please see [jupyter-desktop](https://github.com/yuvipanda/jupyter-desktop).
+
+--
+
 **nbnovnc** provides Jupyter server and notebook extensions to proxy a notebook-side VNC session using noVNC, enabling users to run non-web applications within their Jupyter notebook server. This is mostly useful for hosted Jupyter environments such as JupyterHub or Binder.
 
 This is proof-of-concept. I'm working on 1) porting it to the latest jupyter-server-proxy and 2) use tigervnc and its UNIX socket support.
